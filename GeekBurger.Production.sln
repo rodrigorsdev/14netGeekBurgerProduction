@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekBurger.Production.Contract", "GeekBurger.Production.Contract\GeekBurger.Production.Contract.csproj", "{779BC68E-C564-4D3F-B767-6BE834877139}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekBurger.Production.Api", "GeekBurger.Production.Api\GeekBurger.Production.Api.csproj", "{8249BF9F-EEE3-46DE-8B5F-E1024AD9B2B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekBurger.Production", "GeekBurger.Production.Api\GeekBurger.Production.csproj", "{8249BF9F-EEE3-46DE-8B5F-E1024AD9B2B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekBurger.Production.Test", "GeekBurger.Production.Test\GeekBurger.Production.Test.csproj", "{AD025BC6-C1C9-40BB-A589-DFF168DE2A43}"
 EndProject

@@ -3,7 +3,7 @@ using Xunit;
 
 namespace GeekBurger.Production.Test
 {
-    public class UnitTest1
+    public class ProductionTest
     {
         [Fact]
         public void Test1()

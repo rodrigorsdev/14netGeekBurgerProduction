@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekBurger.Production.Contract", "GeekBurger.Production.Contract\GeekBurger.Production.Contract.csproj", "{779BC68E-C564-4D3F-B767-6BE834877139}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekBurger.Production.Test", "GeekBurger.Production.Test\GeekBurger.Production.Test.csproj", "{AD025BC6-C1C9-40BB-A589-DFF168DE2A43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekBurger.Production.Api", "GeekBurger.Production.Api\GeekBurger.Production.Api.csproj", "{8249BF9F-EEE3-46DE-8B5F-E1024AD9B2B1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekBurger.Production.Test", "GeekBurger.Production.Test\GeekBurger.Production.Test.csproj", "{AD025BC6-C1C9-40BB-A589-DFF168DE2A43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekBurger.Production", "GeekBurger.Production.Api\GeekBurger.Production.csproj", "{7B056915-B562-4A20-A16A-9E1EE00EC43C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{779BC68E-C564-4D3F-B767-6BE834877139}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{779BC68E-C564-4D3F-B767-6BE834877139}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{779BC68E-C564-4D3F-B767-6BE834877139}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{779BC68E-C564-4D3F-B767-6BE834877139}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8249BF9F-EEE3-46DE-8B5F-E1024AD9B2B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8249BF9F-EEE3-46DE-8B5F-E1024AD9B2B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8249BF9F-EEE3-46DE-8B5F-E1024AD9B2B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8249BF9F-EEE3-46DE-8B5F-E1024AD9B2B1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD025BC6-C1C9-40BB-A589-DFF168DE2A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD025BC6-C1C9-40BB-A589-DFF168DE2A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD025BC6-C1C9-40BB-A589-DFF168DE2A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD025BC6-C1C9-40BB-A589-DFF168DE2A43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B056915-B562-4A20-A16A-9E1EE00EC43C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B056915-B562-4A20-A16A-9E1EE00EC43C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B056915-B562-4A20-A16A-9E1EE00EC43C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B056915-B562-4A20-A16A-9E1EE00EC43C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

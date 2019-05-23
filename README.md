@@ -7,7 +7,7 @@ Technologies
 ### TO DO
 - [ ] **Add Unit testing project**
 - [ ] **Create Unit tests**
-- [ ] **Create the contracts
+- [ ] **Create the contracts**
 
 ## Contribute
 The best way to contribute is by **putting in some good words** about the library and help me out by:

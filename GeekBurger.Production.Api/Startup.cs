@@ -19,7 +19,7 @@ namespace GeekBurger.Production.Api
         public void ConfigureServices(IServiceCollection services)
         {
             Bootstrapper.RegisterServices(services, Configuration);
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(a =>
             {
                 a.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "GeekBurger Production", Version = "v1" });

@@ -5,8 +5,4 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="GeekBurger.Products.Contract" Version="4.0.0" />
-  </ItemGroup>
-
 </Project>

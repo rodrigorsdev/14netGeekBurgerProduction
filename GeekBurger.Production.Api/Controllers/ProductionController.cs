@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GeekBurger.Production.Contract;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace GeekBurger.Production.Api.Controllers
 {
@@ -6,12 +8,14 @@ namespace GeekBurger.Production.Api.Controllers
     [ApiController]
     public class ProductionController : ControllerBase
     {
-        [HttpGet]
+        [HttpGet("areas")]
         public IActionResult GetAreas()
         {
-            return Ok();
+            var output = new Restriction();
+
+            return Ok(output);
         }
-        
+
         [HttpPost]
         public IActionResult NewOrder()
         {

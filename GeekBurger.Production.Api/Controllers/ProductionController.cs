@@ -1,6 +1,6 @@
-﻿using GeekBurger.Production.Contract;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using GeekBurger.Production.Contract;
 
 namespace GeekBurger.Production.Api.Controllers
 {

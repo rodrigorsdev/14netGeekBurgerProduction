@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using GeekBurger.Production.Application.Interfaces;
+using GeekBurger.Production.Application.Service;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
@@ -33,7 +35,8 @@ namespace GeekBurger.Production.Infra.Ioc
             Services = services;
 
             //Inject here
-          
+            services.AddSingleton<ILogService, LogService>();
+            services.AddSingleton<IOrderService, OrderService>();
 
             return Services;
         }

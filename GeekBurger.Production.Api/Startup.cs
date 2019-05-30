@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using GeekBurger.Production.Infra.Ioc;
+using AutoMapper;
 
 namespace GeekBurger.Production.Api
 {
@@ -20,11 +21,15 @@ namespace GeekBurger.Production.Api
         public void ConfigureServices(IServiceCollection services)
         {
             Bootstrapper.RegisterServices(services, Configuration);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             services.AddSwaggerGen(a =>
             {
                 a.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "GeekBurger Production", Version = "v1" });
             });
+
+            services.AddAutoMapper();
         }
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

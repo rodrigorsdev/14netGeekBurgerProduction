@@ -9,6 +9,7 @@ using Microsoft.Azure.Management.ServiceBus.Fluent;
 
 using GeekBurger.Production.Application.Interfaces;
 using Microsoft.Extensions.Configuration;
+using AutoMapper;
 
 namespace GeekBurger.Production.Application.Service
 {
@@ -16,12 +17,34 @@ namespace GeekBurger.Production.Application.Service
     {
         #region| Properties |
 
-        private const string CONST_TOPIC = "OrderChanged";
-        private readonly List<Message> _messages;
-        private readonly IServiceBusNamespace _namespace;
-        private readonly CancellationTokenSource _cancelMessages;
+        private const string Topic = "OrderChanged";
         private readonly IConfiguration _configuration;
+        private IMapper _mapper;
+        private readonly List<Message> _messages;
+        private Task _lastTask;
+        private readonly IServiceBusNamespace _namespace;
+        private readonly ILogService _logService;
+        private CancellationTokenSource _cancelMessages;
+        private IServiceProvider _serviceProvider { get; }
 
+        #endregion
+
+        #region| Constructor | 
+
+        public OrderService(
+            IMapper mapper,
+            IConfiguration configuration, 
+            ILogService logService, 
+            IServiceProvider serviceProvider)
+        {
+            _mapper = mapper;
+            _configuration = configuration;
+            _logService = logService;
+            _messages = new List<Message>();
+            _namespace = _configuration.GetServiceBusNamespace();
+            _cancelMessages = new CancellationTokenSource();
+            _serviceProvider = serviceProvider;
+        }
         #endregion
 
         #region| Methods |
@@ -40,17 +63,7 @@ namespace GeekBurger.Production.Application.Service
         {
             throw new NotImplementedException();
         }
-
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public void WaitOrderChanged()
         {
             throw new NotImplementedException();
@@ -58,24 +71,22 @@ namespace GeekBurger.Production.Application.Service
 
         private void EnsureTopicIsCreated()
         {
-            if (!_namespace.Topics.List().Any(topic => topic.Name.Equals(CONST_TOPIC, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                _namespace.Topics.Define(CONST_TOPIC).WithSizeInMB(1024).Create();
-            }
+            if (!_namespace.Topics.List().Any(topic => topic.Name.Equals(Topic, StringComparison.InvariantCultureIgnoreCase)))
+                _namespace.Topics.Define(Topic).WithSizeInMB(1024).Create();
         }
 
-        #endregion
-
-        #region| Constructor | 
-
-        public OrderService(IConfiguration configuration)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            this._messages = new List<Message>();
-            this._cancelMessages = new CancellationTokenSource();
-            this._configuration = configuration;
+            EnsureTopicIsCreated();
+            return Task.CompletedTask;
+        }
 
-            this._namespace = _configuration.GetServiceBusNamespace();
-        } 
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            _cancelMessages.Cancel();
+            return Task.CompletedTask;
+        }
+
         #endregion
     }
 }

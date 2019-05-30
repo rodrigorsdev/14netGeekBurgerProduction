@@ -36,7 +36,7 @@ namespace GeekBurger.Production.Infra.Ioc
             Services = services;
 
             //Inject here
-            services.AddSingleton(a => new DocumentClient(new Uri("https://geekburger-production.documents.azure.com:443/"), "JlpD6frg19nvq0TMAIrQcFi9zeZEMW8NEUhYMrzbBVLMmvehraJRLQ6tfGM75RYgnSJu525hLh5yklnudzi8jA=="));
+            services.AddSingleton(a => new DocumentClient(new Uri(configuration["Nosql:Uri"]), configuration["Nosql:Key"]));
 
             services.AddSingleton<ILogService, LogService>();
             services.AddSingleton<IOrderService, OrderService>();

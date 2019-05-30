@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>This project contains the contracts required to implement the communication with this Microservice</Description>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
 </Project>

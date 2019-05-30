@@ -16,8 +16,8 @@ namespace GeekBurger.Production.Api
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-        
+        public IConfiguration Configuration { set; get; }
+
         public void ConfigureServices(IServiceCollection services)
         {
             Bootstrapper.RegisterServices(services, Configuration);
@@ -31,14 +31,26 @@ namespace GeekBurger.Production.Api
 
             services.AddAutoMapper();
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var builder = new ConfigurationBuilder()
+                            .SetBasePath(env.ContentRootPath)
+                            .AddJsonFile("appsettings.json",
+                                 optional: false,
+                                 reloadOnChange: true)
+                            .AddEnvironmentVariables();
+
             if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
                 app.UseDeveloperExceptionPage();
+            }
+
+            Configuration = builder.Build();
 
             app.UseSwagger();
-            
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "GeekBurger Production V1");

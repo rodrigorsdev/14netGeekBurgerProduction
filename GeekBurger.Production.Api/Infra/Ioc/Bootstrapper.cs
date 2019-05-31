@@ -1,5 +1,8 @@
 ﻿using GeekBurger.Production.Application.Interfaces;
 using GeekBurger.Production.Application.Service;
+using GeekBurger.Production.Infra.Repository;
+using GeekBurger.Production.Interface;
+using GeekBurger.Production.Models;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,9 +37,15 @@ namespace GeekBurger.Production.Infra.Ioc
         public static IServiceCollection RegisterServices(IServiceCollection services, IConfiguration configuration)
         {
             Services = services;
+            
+            services.Configure<NoSql>(configuration.GetSection("NoSql"));
 
             //Inject here
+            services.AddSingleton<IConfiguration>(configuration);
+
             services.AddSingleton(a => new DocumentClient(new Uri(configuration["Nosql:Uri"]), configuration["Nosql:Key"]));
+
+            services.AddSingleton<IAreaRepository, AreaRepository>();
 
             services.AddSingleton<ILogService, LogService>();
             services.AddSingleton<IOrderService, OrderService>();

@@ -9,7 +9,6 @@ using Microsoft.Azure.Management.ServiceBus.Fluent;
 
 using GeekBurger.Production.Application.Interfaces;
 using Microsoft.Extensions.Configuration;
-using AutoMapper;
 
 namespace GeekBurger.Production.Application.Service
 {
@@ -19,7 +18,6 @@ namespace GeekBurger.Production.Application.Service
 
         private const string Topic = "OrderChanged";
         private readonly IConfiguration _configuration;
-        private IMapper _mapper;
         private readonly List<Message> _messages;
         private Task _lastTask;
         private readonly IServiceBusNamespace _namespace;
@@ -32,12 +30,10 @@ namespace GeekBurger.Production.Application.Service
         #region| Constructor | 
 
         public OrderService(
-            IMapper mapper,
             IConfiguration configuration, 
             ILogService logService, 
             IServiceProvider serviceProvider)
         {
-            _mapper = mapper;
             _configuration = configuration;
             _logService = logService;
             _messages = new List<Message>();

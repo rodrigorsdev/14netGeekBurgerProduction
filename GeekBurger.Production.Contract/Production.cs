@@ -6,6 +6,6 @@ namespace GeekBurger.Production.Contract
     {
         public Guid TransactionId { get; set; }
         public Guid ProductionId { get; set; }
-        public Restriction Restrictions { get; set; }
+        public Area Restrictions { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using GeekBurger.Production.Application.Interfaces;
+﻿using GeekBurger.Production.Application.Interfaces;
 using Microsoft.Azure.Management.ServiceBus.Fluent;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
@@ -17,14 +16,13 @@ namespace GeekBurger.Production.Application.Service
         private const string MicroService = "Production";
         private const string Topic = "Log";
         private IConfiguration _configuration;
-        private IMapper _mapper;
         private List<Message> _messages;
         private Task _lastTask;
         private IServiceBusNamespace _namespace;
 
-        public LogService(IMapper mapper, IConfiguration configuration)
+        public LogService(
+            IConfiguration configuration)
         {
-            _mapper = mapper;
             _configuration = configuration;
             _messages = new List<Message>();
             _namespace = _configuration.GetServiceBusNamespace();
@@ -38,7 +36,6 @@ namespace GeekBurger.Production.Application.Service
                     .Equals(Topic, StringComparison.InvariantCultureIgnoreCase)))
                 _namespace.Topics.Define(Topic)
                     .WithSizeInMB(1024).Create();
-
         }
 
         public Message GetMessage(string message)

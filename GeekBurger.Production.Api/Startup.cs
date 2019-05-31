@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using GeekBurger.Production.Infra.Ioc;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using GeekBurger.Production.Infra.Ioc;
-using AutoMapper;
 
 namespace GeekBurger.Production.Api
 {
@@ -29,7 +27,7 @@ namespace GeekBurger.Production.Api
                 a.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "GeekBurger Production", Version = "v1" });
             });
 
-            services.AddAutoMapper();
+            //services.AddAutoMapper();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

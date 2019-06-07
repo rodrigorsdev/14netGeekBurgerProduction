@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace GeekBurger.Production.Interface
 {
-    public interface IAreaRepository
+    public interface IProductionRepository
     {
-        Task<ICollection<Area>> List();
-        Task Add(Area model);
+        Task<ICollection<Contract.Production>> List();
+        Task Add(Contract.Production model);
     }
 }

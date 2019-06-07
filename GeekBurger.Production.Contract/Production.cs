@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GeekBurger.Production.Contract
 {
     public class Production
     {
-        public Guid TransactionId { get; set; }
         public Guid ProductionId { get; set; }
-        public Area Restrictions { get; set; }
+        public ICollection<string> Restrictions { get; set; }
+        public bool On { get; set; }
     }
 }

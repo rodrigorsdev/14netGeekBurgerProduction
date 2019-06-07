@@ -15,10 +15,10 @@ namespace GeekBurger.Production.Api.Controllers
     [ApiController]
     public class ProductionController : ControllerBase
     {
-        private readonly IAreaRepository _areaRepository;
+        private readonly IProductionRepository _areaRepository;
 
         public ProductionController(
-            IAreaRepository areaRepository)
+            IProductionRepository areaRepository)
         {
             _areaRepository = areaRepository;
         }
@@ -39,7 +39,7 @@ namespace GeekBurger.Production.Api.Controllers
         }
 
         [HttpPost("addArea")]
-        public async Task<IActionResult> AddArea(Area request)
+        public async Task<IActionResult> AddArea(Contract.Production request)
         {
             try
             {

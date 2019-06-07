@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using GeekBurger.Production.Contract;
-using Microsoft.Azure.Documents.Client;
-using System.Threading.Tasks;
-using GeekBurger.Production.Interface;
+﻿using GeekBurger.Production.Interface;
+using Microsoft.AspNetCore.Mvc;
 using System;
-using Microsoft.Azure.Documents;
-using System.Net;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GeekBurger.Production.Api.Controllers
 {
@@ -33,26 +27,38 @@ namespace GeekBurger.Production.Api.Controllers
             }
             catch (Exception e)
             {
-                throw;
+                return BadRequest();
             }
-            
         }
 
-        //[HttpPost("addArea")]
-        //public async Task<IActionResult> AddArea(Contract.Production request)
-        //{
-        //    try
-        //    {
-        //        await _areaRepository.Add(request);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw;
-        //    }
+        [HttpPost("addArea")]
+        public async Task<IActionResult> AddArea(Contract.Production request)
+        {
+            try
+            {
+                await _areaRepository.Add(request);
+                return Ok(request);
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
+        }
 
-        //    return Ok();
-        //}
-
+        [HttpPut("updateArea")]
+        public async Task<IActionResult> UpdateArea(Contract.Production request)
+        {
+            try
+            {
+                await _areaRepository.Update(request);
+                return Ok(request);
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
+        }
+        
         [HttpPost("newOrder")]
         public IActionResult NewOrder()
         {

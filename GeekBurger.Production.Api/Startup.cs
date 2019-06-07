@@ -26,8 +26,6 @@ namespace GeekBurger.Production.Api
             {
                 a.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "GeekBurger Production", Version = "v1" });
             });
-
-            //services.AddAutoMapper();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

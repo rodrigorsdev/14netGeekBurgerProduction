@@ -8,5 +8,6 @@ namespace GeekBurger.Production.Interface
     {
         Task<ICollection<Contract.Production>> List();
         Task Add(Contract.Production model);
+        Task Update(Contract.Production model);
     }
 }

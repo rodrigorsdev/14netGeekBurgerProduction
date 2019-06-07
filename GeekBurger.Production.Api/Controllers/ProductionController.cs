@@ -38,20 +38,20 @@ namespace GeekBurger.Production.Api.Controllers
             
         }
 
-        [HttpPost("addArea")]
-        public async Task<IActionResult> AddArea(Contract.Production request)
-        {
-            try
-            {
-                await _areaRepository.Add(request);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+        //[HttpPost("addArea")]
+        //public async Task<IActionResult> AddArea(Contract.Production request)
+        //{
+        //    try
+        //    {
+        //        await _areaRepository.Add(request);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw;
+        //    }
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
         [HttpPost("newOrder")]
         public IActionResult NewOrder()

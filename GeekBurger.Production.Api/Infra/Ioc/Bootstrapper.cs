@@ -4,18 +4,27 @@ using GeekBurger.Production.Infra.Repository;
 using GeekBurger.Production.Interface;
 using GeekBurger.Production.Models;
 using Microsoft.Azure.Documents.Client;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace GeekBurger.Production.Infra.Ioc
 {
+    /// <summary>
+    /// Dependency injection bootstraper
+    /// </summary>
     public static class Bootstrapper
     {
-        private static IServiceProvider ServiceProvider { get; set; }
+        #region| Fields |
 
+        private static IServiceProvider ServiceProvider { get; set; }
         private static IServiceCollection Services { get; set; }
+
+        #endregion
+
+        #region| Methods |
 
         public static T GetService<T>()
         {
@@ -37,7 +46,7 @@ namespace GeekBurger.Production.Infra.Ioc
         public static IServiceCollection RegisterServices(IServiceCollection services, IConfiguration configuration)
         {
             Services = services;
-            
+
             services.Configure<NoSql>(configuration.GetSection("NoSql"));
 
             //Inject here
@@ -51,6 +60,8 @@ namespace GeekBurger.Production.Infra.Ioc
             services.AddSingleton<IOrderService, OrderService>();
 
             return Services;
-        }
+        } 
+
+        #endregion
     }
 }

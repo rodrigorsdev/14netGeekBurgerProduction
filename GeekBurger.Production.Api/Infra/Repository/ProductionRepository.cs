@@ -1,36 +1,51 @@
-﻿using GeekBurger.Production.Contract;
-using GeekBurger.Production.Interface;
-using GeekBurger.Production.Models;
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.Documents.Client;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
+using GeekBurger.Production.Interface;
+using GeekBurger.Production.Models;
+
+using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.Options;
+
 namespace GeekBurger.Production.Infra.Repository
 {
+    /// <summary>
+    /// Production repository
+    /// </summary>
     public class ProductionRepository : BaseRepository, IProductionRepository
     {
+        #region| Fields |
+
         private const string COLLECTION = "ProductionCollection";
 
         private readonly IOptions<NoSql> _nosql;
         private readonly DocumentClient _document;
 
-        public ProductionRepository(
-            IOptions<NoSql> nosql,
-            DocumentClient document) : base(nosql, document)
+        #endregion
+
+        #region| Constructor |
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public ProductionRepository(IOptions<NoSql> nosql, DocumentClient document) : base(nosql, document)
         {
             _nosql = nosql;
             _document = document;
         }
 
+        #endregion
+
+        #region| Methods |
+
         public async Task<ICollection<Contract.Production>> List()
         {
             await ValidateDatabase();
             await ValidateCollection(COLLECTION);
+
             FeedOptions queryOptions = new FeedOptions { MaxItemCount = -1 };
 
             IQueryable<Contract.Production> query = _document.CreateDocumentQuery<Contract.Production>(
@@ -89,8 +104,7 @@ namespace GeekBurger.Production.Infra.Repository
                 //    throw;
                 //}
             }
-        }
-
-        
+        } 
+        #endregion
     }
 }

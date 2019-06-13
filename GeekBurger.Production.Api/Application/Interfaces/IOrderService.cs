@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GeekBurger.Production.Application.Interfaces
 {
+    /// <summary>
+    /// Order Service Interface
+    /// </summary>
     public interface IOrderService: IHostedService
     {
         void ProductionAreaChanged();

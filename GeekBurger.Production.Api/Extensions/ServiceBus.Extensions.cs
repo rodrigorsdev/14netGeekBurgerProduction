@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace GeekBurger.Production
 {
+    /// <summary>
+    /// Service bus extensions methods
+    /// </summary>
     public static class ServiceBusNamespaceExtension
     {
         public static IServiceBusNamespace GetServiceBusNamespace(this IConfiguration configuration)

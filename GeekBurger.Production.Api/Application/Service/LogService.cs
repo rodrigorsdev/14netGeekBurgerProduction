@@ -1,18 +1,22 @@
-﻿using GeekBurger.Production.Application.Interfaces;
-using Microsoft.Azure.Management.ServiceBus.Fluent;
-using Microsoft.Azure.ServiceBus;
-using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using GeekBurger.Production.Application.Interfaces;
+
+using Microsoft.Azure.Management.ServiceBus.Fluent;
+using Microsoft.Azure.ServiceBus;
+using Microsoft.Extensions.Configuration;
+
 namespace GeekBurger.Production.Application.Service
 {
     public class LogService : ILogService
     {
+        #region| Fields |
+
         private const string MicroService = "Production";
         private const string Topic = "Log";
         private IConfiguration _configuration;
@@ -20,14 +24,22 @@ namespace GeekBurger.Production.Application.Service
         private Task _lastTask;
         private IServiceBusNamespace _namespace;
 
-        public LogService(
-            IConfiguration configuration)
+        #endregion
+
+        #region| Constructor |
+
+        public LogService(IConfiguration configuration)
         {
             _configuration = configuration;
             _messages = new List<Message>();
             _namespace = _configuration.GetServiceBusNamespace();
+
             EnsureTopicIsCreated();
         }
+
+        #endregion
+
+        #region| Methods |
 
         private void EnsureTopicIsCreated()
         {
@@ -107,6 +119,7 @@ namespace GeekBurger.Production.Application.Service
             });
 
             return false;
-        }
+        } 
+        #endregion
     }
 }

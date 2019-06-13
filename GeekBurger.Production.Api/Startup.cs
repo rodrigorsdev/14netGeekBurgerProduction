@@ -1,20 +1,34 @@
-﻿using GeekBurger.Production.Infra.Ioc;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using GeekBurger.Production.Infra.Ioc;
+
 namespace GeekBurger.Production.Api
 {
+    /// <summary>
+    /// Startup class
+    /// </summary>
     public class Startup
     {
+        #region| Fields |
+
+        public IConfiguration Configuration { set; get; }
+
+        #endregion
+
+        #region| Constructor |
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { set; get; }
+        #endregion
+
+        #region| Methods |
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -25,6 +39,7 @@ namespace GeekBurger.Production.Api
             services.AddSwaggerGen(a =>
             {
                 a.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "GeekBurger Production", Version = "v1" });
+                a.IncludeXmlComments(GetXmlCommentsPath());
             });
         }
 
@@ -54,5 +69,12 @@ namespace GeekBurger.Production.Api
 
             app.UseMvc();
         }
+
+        protected static string GetXmlCommentsPath()
+        {
+            return System.String.Format(@"{0}\GeekBurger.Production.xml", System.AppDomain.CurrentDomain.BaseDirectory);
+        }
+
+        #endregion
     }
 }

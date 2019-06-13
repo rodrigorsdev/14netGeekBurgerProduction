@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace GeekBurger.Production.Interface
 {
+    /// <summary>
+    /// Production repository interface
+    /// </summary>
     public interface IProductionRepository
     {
         Task<ICollection<Contract.Production>> List();

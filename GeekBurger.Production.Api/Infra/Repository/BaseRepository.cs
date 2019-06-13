@@ -1,23 +1,33 @@
-﻿using GeekBurger.Production.Models;
+﻿using System.Threading.Tasks;
+
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
+
+using GeekBurger.Production.Models;
 
 namespace GeekBurger.Production.Infra.Repository
 {
     public abstract class BaseRepository
     {
+        #region| Fields |
+
         private readonly IOptions<NoSql> _nosql;
         private readonly DocumentClient _document;
 
-        public BaseRepository(
-            IOptions<NoSql> nosql,
-            DocumentClient document)
+        #endregion
+
+        #region| Constructor |
+
+        public BaseRepository(IOptions<NoSql> nosql, DocumentClient document)
         {
             _nosql = nosql;
             _document = document;
         }
+
+        #endregion
+
+        #region| Methods |
 
         public async Task ValidateDatabase()
         {
@@ -27,6 +37,8 @@ namespace GeekBurger.Production.Infra.Repository
         public async Task ValidateCollection(string collection)
         {
             await _document.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(_nosql.Value.Database), new DocumentCollection { Id = collection });
-        }
+        } 
+
+        #endregion
     }
 }

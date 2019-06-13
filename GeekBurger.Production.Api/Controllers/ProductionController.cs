@@ -1,23 +1,42 @@
-﻿using GeekBurger.Production.Interface;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+
+using GeekBurger.Production.Interface;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GeekBurger.Production.Api.Controllers
 {
+    /// <summary>
+    /// Production controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ProductionController : ControllerBase
     {
+        #region| Fields |
+
         private readonly IProductionRepository _areaRepository;
 
-        public ProductionController(
-            IProductionRepository areaRepository)
+        #endregion
+
+        #region| Constructor |
+
+        public ProductionController(IProductionRepository areaRepository)
         {
             _areaRepository = areaRepository;
         }
 
+        #endregion
+
+        #region| Methods |
+
+        /// <summary>
+        /// Get all areas
+        /// </summary>
         [HttpGet("areas")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAreas()
         {
             try
@@ -31,6 +50,11 @@ namespace GeekBurger.Production.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Add a new area
+        /// </summary>
+        /// <param name="request">Production model</param>
+        /// <returns>200</returns>
         [HttpPost("addArea")]
         public async Task<IActionResult> AddArea(Contract.Production request)
         {
@@ -45,6 +69,11 @@ namespace GeekBurger.Production.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Update an existing area
+        /// </summary>
+        /// <param name="request">Production model</param>
+        /// <returns></returns>
         [HttpPut("updateArea")]
         public async Task<IActionResult> UpdateArea(Contract.Production request)
         {
@@ -58,11 +87,16 @@ namespace GeekBurger.Production.Api.Controllers
                 return BadRequest();
             }
         }
-        
+
+        /// <summary>
+        /// Post a new Order
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("newOrder")]
         public IActionResult NewOrder()
         {
             return Ok();
-        }
+        } 
+        #endregion
     }
 }

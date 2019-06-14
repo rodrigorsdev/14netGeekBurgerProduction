@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -86,8 +87,11 @@ namespace GeekBurger.Production.Application.Service
 
         public async Task SendAsync(TopicClient topicClient)
         {
+            //TODO: Implement Poly
+
             int tries = 0;
             Message message;
+
             while (true)
             {
                 if (_messages.Count <= 0)
@@ -103,9 +107,13 @@ namespace GeekBurger.Production.Application.Service
                 var success = HandleException(sendTask);
 
                 if (!success)
+                {
                     Thread.Sleep(10000 * (tries < 60 ? tries++ : tries));
+                }
                 else
+                {
                     _messages.Remove(message);
+                }
             }
         }
 
@@ -115,10 +123,12 @@ namespace GeekBurger.Production.Application.Service
 
             task.Exception.InnerExceptions.ToList().ForEach(innerException =>
             {
-                Console.WriteLine($"Error in SendAsync task: {innerException.Message}. Details:{innerException.StackTrace} ");
+                Trace.WriteLine($"Error in SendAsync task: {innerException.Message}. Details:{innerException.StackTrace} ");
 
                 if (innerException is ServiceBusCommunicationException)
-                    Console.WriteLine("Connection Problem with Host. Internet Connection can be down");
+                {
+                    Trace.WriteLine("Connection Problem with Host. Internet Connection can be down");
+                }
             });
 
             return false;

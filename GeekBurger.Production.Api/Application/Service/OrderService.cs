@@ -12,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace GeekBurger.Production.Application.Service
 {
+    /// <summary>
+    /// Order service
+    /// </summary>
     public class OrderService : IOrderService
     {
         #region| Properties |
@@ -29,10 +32,7 @@ namespace GeekBurger.Production.Application.Service
 
         #region| Constructor | 
 
-        public OrderService(
-            IConfiguration configuration, 
-            ILogService logService, 
-            IServiceProvider serviceProvider)
+        public OrderService(IConfiguration configuration, ILogService logService,  IServiceProvider serviceProvider)
         {
             _configuration = configuration;
             _logService = logService;
@@ -62,7 +62,7 @@ namespace GeekBurger.Production.Application.Service
         
         public void WaitOrderChanged()
         {
-            throw new NotImplementedException();
+            
         }
 
         private void EnsureTopicIsCreated()

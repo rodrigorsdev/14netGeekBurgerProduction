@@ -1,11 +1,12 @@
-﻿using GeekBurger.Production.Application.Interfaces;
+﻿using System;
+using System.IO;
+
+using GeekBurger.Production.Application.Interfaces;
 using GeekBurger.Production.Application.Service;
 using GeekBurger.Production.Infra.Repository;
 using GeekBurger.Production.Interface;
 using GeekBurger.Production.Models;
 using Microsoft.Azure.Documents.Client;
-using System;
-using System.IO;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,10 +36,8 @@ namespace GeekBurger.Production.Infra.Ioc
 
         public static IServiceCollection RegisterServices()
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
-            IConfiguration configuration = builder.Build();
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+            var configuration = builder.Build();
 
             return RegisterServices(new ServiceCollection(), configuration);
         }

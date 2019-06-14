@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-
+using GeekBurger.Production.Application.Interfaces;
 using GeekBurger.Production.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +14,8 @@ namespace GeekBurger.Production.Api.Controllers
     [ApiController]
     public class ProductionController : ControllerBase
     {
+        private ILogService _logService;
+
         #region| Fields |
 
         private readonly IProductionRepository _areaRepository;
@@ -22,9 +24,11 @@ namespace GeekBurger.Production.Api.Controllers
 
         #region| Constructor |
 
-        public ProductionController(IProductionRepository areaRepository)
+        public ProductionController(IProductionRepository areaRepository, ILogService logService)
         {
             _areaRepository = areaRepository;
+            _logService = logService;
+
         }
 
         #endregion
@@ -41,6 +45,8 @@ namespace GeekBurger.Production.Api.Controllers
         {
             try
             {
+                _logService.SendMessagesAsync("New order sent ..");
+
                 var output = await _areaRepository.List();
                 return Ok(output);
             }

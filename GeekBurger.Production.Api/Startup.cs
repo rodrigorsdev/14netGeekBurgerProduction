@@ -47,9 +47,7 @@ namespace GeekBurger.Production.Api
         {
             var builder = new ConfigurationBuilder()
                             .SetBasePath(env.ContentRootPath)
-                            .AddJsonFile("appsettings.json",
-                                 optional: false,
-                                 reloadOnChange: true)
+                            .AddJsonFile("appsettings.json",optional: false,reloadOnChange: true)                            
                             .AddEnvironmentVariables();
 
             if (env.IsDevelopment())
@@ -70,6 +68,10 @@ namespace GeekBurger.Production.Api
             app.UseMvc();
         }
 
+        /// <summary>
+        /// Get the XML documentation file
+        /// </summary>
+        /// <returns></returns>
         protected static string GetXmlCommentsPath()
         {
             return System.String.Format(@"{0}\GeekBurger.Production.xml", System.AppDomain.CurrentDomain.BaseDirectory);

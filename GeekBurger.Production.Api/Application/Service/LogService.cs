@@ -13,6 +13,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace GeekBurger.Production.Application.Service
 {
+    /// <summary>
+    /// Log service
+    /// </summary>
     public class LogService : ILogService
     {
         #region| Fields |

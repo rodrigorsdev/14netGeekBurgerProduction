@@ -1,1 +1,5 @@
+-- Nuget server
+https://nugetfiap14.azurewebsites.net/nuget
+
+-- Publish nuget package
 .\nuget.exe push "C:\Users\logonrmlocal\Desktop\Prod\14netGeekBurgerProduction\GeekBurger.Production.Contract\bin\Debug\GeekBurger.Production.Contract.1.0.6.nupkg" -Source http://nugetfiap14.azurewebsites.net/nuget 8db3cebeef8fd6fb85c4c187160b53d1

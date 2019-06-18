@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekBurger.Production", "Ge
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekBurger.Production.Contract", "GeekBurger.Production.Contract\GeekBurger.Production.Contract.csproj", "{2A2ED9EA-35CC-49D5-BDBE-A3332B61E29D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{4653831A-0F37-4C87-BB0B-E0AB797FC518}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{4653831A-0F37-4C87-BB0B-E0AB797FC518}"
 	ProjectSection(SolutionItems) = preProject
-		Nuget.txt = Nuget.txt
+		Documentation\Nuget.txt = Documentation\Nuget.txt
 	EndProjectSection
 EndProject
 Global

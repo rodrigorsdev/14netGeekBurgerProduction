@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using GeekBurger.Production.Application.Interfaces;
 using Microsoft.Azure.Management.ServiceBus.Fluent;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
+using Polly;
 
 namespace GeekBurger.Production.Application.Service
 {
@@ -85,38 +87,49 @@ namespace GeekBurger.Production.Application.Service
             HandleException(closeTask);
         }
 
+        /// <summary>
+        /// Send message async
+        /// </summary>
+        /// <param name="topicClient"></param>
+        /// <returns></returns>
         public async Task SendAsync(TopicClient topicClient)
         {
-            //TODO: Implement Poly
+            var maxRetryAttempts     = int.Parse(_configuration["maxRetryAttempts"]);
+            var pauseBetweenFailures = TimeSpan.FromSeconds(int.Parse(_configuration["pauseBetweenFailures"]));
 
-            int tries = 0;
-            Message message;
+            Message message = null;
 
-            while (true)
+            var sendTask = topicClient.SendAsync(message);
+
+            var retryPolicy = Policy
+                .Handle<HttpRequestException>(ex=> HandleException(sendTask))
+                .WaitAndRetryAsync(maxRetryAttempts, i => pauseBetweenFailures);
+
+            await retryPolicy.ExecuteAsync(async () =>
             {
-                if (_messages.Count <= 0)
-                    break;
-
                 lock (_messages)
                 {
                     message = _messages.FirstOrDefault();
                 }
 
-                var sendTask = topicClient.SendAsync(message);
+                sendTask = topicClient.SendAsync(message);
+
                 await sendTask;
+
                 var success = HandleException(sendTask);
 
-                if (!success)
-                {
-                    Thread.Sleep(10000 * (tries < 60 ? tries++ : tries));
-                }
-                else
+                if (success)
                 {
                     _messages.Remove(message);
                 }
-            }
+            });
         }
 
+        /// <summary>
+        /// Handle task exception
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
         public bool HandleException(Task task)
         {
             if (task.Exception == null || task.Exception.InnerExceptions.Count == 0) return true;

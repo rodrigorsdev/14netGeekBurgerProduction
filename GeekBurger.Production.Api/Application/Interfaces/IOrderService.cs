@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using GeekBurger.Production.Contract;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
 
 namespace GeekBurger.Production.Application.Interfaces
 {
@@ -7,9 +10,7 @@ namespace GeekBurger.Production.Application.Interfaces
     /// </summary>
     public interface IOrderService: IHostedService
     {
-        void ProductionAreaChanged();
-        void NewOrder();
-        void OrderChanged();
-        void WaitOrderChanged();
+        void SendMessagesAsync();
+        void AddToMessageList(IEnumerable<EntityEntry<Order>> changes);
     }
 }

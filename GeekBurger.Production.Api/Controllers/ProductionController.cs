@@ -1,9 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using GeekBurger.Production.Application.Interfaces;
+﻿using GeekBurger.Production.Application.Interfaces;
+using GeekBurger.Production.Application.ViewModel;
 using GeekBurger.Production.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace GeekBurger.Production.Api.Controllers
 {
@@ -45,8 +46,6 @@ namespace GeekBurger.Production.Api.Controllers
         {
             try
             {
-                _logService.SendMessagesAsync("New order sent ..");
-
                 var output = await _areaRepository.List();
                 return Ok(output);
             }
@@ -86,6 +85,7 @@ namespace GeekBurger.Production.Api.Controllers
             try
             {
                 await _areaRepository.Update(request);
+                _logService.SendMessagesAsync("ProductionAreaChanged");
                 return Ok(request);
             }
             catch (Exception e)
@@ -99,10 +99,37 @@ namespace GeekBurger.Production.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("newOrder")]
-        public IActionResult NewOrder()
+        public IActionResult NewOrder(NewOrder request)
         {
-            return Ok();
-        } 
+            try
+            {
+                _logService.SendMessagesAsync("NewOrder");
+                return Ok(request);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
+
+        /// <summary>
+        /// Update order
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("updateOrder")]
+        public IActionResult UpdateOrder(UpdateOrder request)
+        {
+            try
+            {
+                _logService.SendMessagesAsync("OrderChanged");
+                return Ok(request);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
         #endregion
     }
 }

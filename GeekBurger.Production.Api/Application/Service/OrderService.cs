@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿using GeekBurger.Production.Application.Interfaces;
+using GeekBurger.Production.Contract;
+using Microsoft.Azure.Management.ServiceBus.Fluent;
+using Microsoft.Azure.ServiceBus;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Microsoft.Azure.ServiceBus;
-using Microsoft.Azure.Management.ServiceBus.Fluent;
-
-using GeekBurger.Production.Application.Interfaces;
-using Microsoft.Extensions.Configuration;
 
 namespace GeekBurger.Production.Application.Service
 {
@@ -32,7 +32,7 @@ namespace GeekBurger.Production.Application.Service
 
         #region| Constructor | 
 
-        public OrderService(IConfiguration configuration, ILogService logService,  IServiceProvider serviceProvider)
+        public OrderService(IConfiguration configuration, ILogService logService, IServiceProvider serviceProvider)
         {
             _configuration = configuration;
             _logService = logService;
@@ -44,26 +44,6 @@ namespace GeekBurger.Production.Application.Service
         #endregion
 
         #region| Methods |
-
-        public void NewOrder()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OrderChanged()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ProductionAreaChanged()
-        {
-            throw new NotImplementedException();
-        }
-        
-        public void WaitOrderChanged()
-        {
-            
-        }
 
         private void EnsureTopicIsCreated()
         {
@@ -83,6 +63,75 @@ namespace GeekBurger.Production.Application.Service
             return Task.CompletedTask;
         }
 
+        public async void SendMessagesAsync()
+        {
+            if (_lastTask != null && !_lastTask.IsCompleted)
+                return;
+
+            var config = _configuration.GetSection("serviceBus").Get<ServiceBusConfiguration>();
+            var topicClient = new TopicClient(config.ConnectionString, Topic);
+
+            _logService.SendMessagesAsync("Order was changed");
+
+            _lastTask = SendAsync(topicClient, _cancelMessages.Token);
+
+            await _lastTask;
+
+            var closeTask = topicClient.CloseAsync();
+            await closeTask;
+            HandleException(closeTask);
+        }
+
+        public void AddToMessageList(IEnumerable<EntityEntry<Order>> changes)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task SendAsync(TopicClient topicClient, CancellationToken cancellationToken)
+        {
+            var tries = 0;
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                if (_messages.Count <= 0)
+                    break;
+
+                Message message;
+                lock (_messages)
+                {
+                    message = _messages.FirstOrDefault();
+                }
+
+                var sendTask = topicClient.SendAsync(message);
+                await sendTask;
+                var success = HandleException(sendTask);
+
+                if (!success)
+                {
+                    var cancelled = cancellationToken.WaitHandle.WaitOne(10000 * (tries < 60 ? tries++ : tries));
+                    if (cancelled) break;
+                }
+                else
+                {
+                    if (message == null) continue;
+                    _messages.Remove(message);
+                }
+            }
+        }
+
+        private bool HandleException(Task task)
+        {
+            if (task.Exception == null || task.Exception.InnerExceptions.Count == 0) return true;
+
+            task.Exception.InnerExceptions.ToList().ForEach(innerException =>
+            {
+                Console.WriteLine($"Error in SendAsync task: {innerException.Message}. Details:{innerException.StackTrace} ");
+
+                if (innerException is ServiceBusCommunicationException)
+                    Console.WriteLine("Connection Problem with Host. Internet Connection can be down");
+            });
+
+            return false;
+        }
         #endregion
     }
 }

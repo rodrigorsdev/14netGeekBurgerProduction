@@ -2,6 +2,7 @@
 using GeekBurger.Production.Models;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Documents.Linq;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -37,8 +38,9 @@ namespace GeekBurger.Production.Infra.Repository
         {
             await ValidateDatabase();
             await ValidateCollection(COLLECTION);
-            var query = _document.CreateDocumentQuery(UriFactory.CreateDocumentUri(_nosql.Value.Database, COLLECTION,id.ToString())).ToList();
-            var result = query.FirstOrDefault();
+            var query = _document.CreateDocumentQuery<Order>(COLLECTION)
+                .Where(a => a.OrderId == id)
+                .AsDocumentQuery();
             return null;
         }
 

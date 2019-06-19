@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Hosting;
 
 using GeekBurger.Production.Contract;
+using GeekBurger.Production.Models;
 
 namespace GeekBurger.Production.Application.Interfaces
 {

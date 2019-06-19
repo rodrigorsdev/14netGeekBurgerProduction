@@ -1,5 +1,6 @@
 ﻿using GeekBurger.Production.Application.Interfaces;
 using GeekBurger.Production.Contract;
+using GeekBurger.Production.Models;
 using GeekBurguer.Orders.Contract;
 using Microsoft.Azure.Management.ServiceBus.Fluent;
 using Microsoft.Azure.ServiceBus;
@@ -33,7 +34,7 @@ namespace GeekBurger.Production.Application.Service
             throw new NotImplementedException();
         }
 
-        public void AddToMessageList(IEnumerable<EntityEntry<NewOrderMessage>> changes)
+        public void AddToMessageList(IEnumerable<EntityEntry<Order>> changes)
         {
             throw new NotImplementedException();
         }

@@ -30,7 +30,7 @@ namespace GeekBurger.Production.Api.Controllers
         /// </summary>
         /// <param name="areaRepository">IProductionRepository</param>
         /// <param name="logService">ILogService</param>
-        public ProductionController(IProductionRepository areaRepository, ILogService logService)
+        public ProductionController(IProductionRepository areaRepository, IOrderRepository orderRepository, ILogService logService)
         {
             _areaRepository = areaRepository;
             _orderRepository = orderRepository;

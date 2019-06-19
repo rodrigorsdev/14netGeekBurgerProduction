@@ -27,6 +27,11 @@ namespace GeekBurger.Production.Infra.Ioc
 
         #region| Methods |
 
+        /// <summary>
+        /// Get service
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static T GetService<T>()
         {
             Services = Services ?? RegisterServices();
@@ -34,6 +39,10 @@ namespace GeekBurger.Production.Infra.Ioc
             return ServiceProvider.GetService<T>();
         }
 
+        /// <summary>
+        /// Register Services
+        /// </summary>
+        /// <returns>IServiceCollection</returns>
         public static IServiceCollection RegisterServices()
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
@@ -42,6 +51,12 @@ namespace GeekBurger.Production.Infra.Ioc
             return RegisterServices(new ServiceCollection(), configuration);
         }
 
+        /// <summary>
+        /// Register Services
+        /// </summary>
+        /// <param name="services">IServiceCollection</param>
+        /// <param name="configuration">IConfiguration</param>
+        /// <returns>IServiceCollection</returns>
         public static IServiceCollection RegisterServices(IServiceCollection services, IConfiguration configuration)
         {
             Services = services;

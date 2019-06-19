@@ -9,6 +9,11 @@ namespace GeekBurger.Production
     /// </summary>
     public static class ServiceBusNamespaceExtension
     {
+        /// <summary>
+        /// Get the service bus namespace
+        /// </summary>
+        /// <param name="configuration">IConfiguration</param>
+        /// <returns></returns>
         public static IServiceBusNamespace GetServiceBusNamespace(this IConfiguration configuration)
         {
             var config = configuration.GetSection("serviceBus").Get<ServiceBusConfiguration>();

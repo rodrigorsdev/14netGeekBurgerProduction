@@ -1,9 +1,10 @@
-﻿using GeekBurger.Production.Application.Interfaces;
+﻿using System;
+using System.Threading.Tasks;
+
+using GeekBurger.Production.Application.Interfaces;
 using GeekBurger.Production.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
 namespace GeekBurger.Production.Api.Controllers
 {
@@ -14,15 +15,22 @@ namespace GeekBurger.Production.Api.Controllers
     [ApiController]
     public class ProductionController : ControllerBase
     {
-        private ILogService _logService;
+        #region| Fields |
 
+        private ILogService _logService;
         private readonly IProductionRepository _areaRepository;
         private readonly IOrderRepository _orderRepository;
 
-        public ProductionController(
-            IProductionRepository areaRepository,
-            IOrderRepository orderRepository,
-            ILogService logService)
+        #endregion
+
+        #region| Constructor |
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="areaRepository">IProductionRepository</param>
+        /// <param name="logService">ILogService</param>
+        public ProductionController(IProductionRepository areaRepository, ILogService logService)
         {
             _areaRepository = areaRepository;
             _orderRepository = orderRepository;
@@ -55,6 +63,8 @@ namespace GeekBurger.Production.Api.Controllers
         /// <param name="request">Production model</param>
         /// <returns>200</returns>
         [HttpPost("addArea")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddArea(Contract.Production request)
         {
             try
@@ -144,5 +154,7 @@ namespace GeekBurger.Production.Api.Controllers
                 return BadRequest();
             }
         }
+
+        #endregion
     }
 }

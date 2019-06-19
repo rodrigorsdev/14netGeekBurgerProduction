@@ -8,9 +8,9 @@ namespace GeekBurger.Production.Application.Interfaces
     /// <summary>
     /// Order Service Interface
     /// </summary>
-    public interface IOrderService: IHostedService
+    public interface INewOrderService: IHostedService
     {
         void SendMessagesAsync();
-        void AddToMessageList(IEnumerable<EntityEntry<Order>> changes);
+        void AddToMessageList(IEnumerable<EntityEntry<GeekBurguer.Orders.Contract.NewOrderMessage>> changes);
     }
 }

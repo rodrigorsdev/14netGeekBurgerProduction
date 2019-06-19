@@ -1,5 +1,4 @@
 ﻿using GeekBurger.Production.Application.Interfaces;
-using GeekBurger.Production.Application.ViewModel;
 using GeekBurger.Production.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,24 +16,19 @@ namespace GeekBurger.Production.Api.Controllers
     {
         private ILogService _logService;
 
-        #region| Fields |
-
         private readonly IProductionRepository _areaRepository;
+        private readonly IOrderRepository _orderRepository;
 
-        #endregion
-
-        #region| Constructor |
-
-        public ProductionController(IProductionRepository areaRepository, ILogService logService)
+        public ProductionController(
+            IProductionRepository areaRepository,
+            IOrderRepository orderRepository,
+            ILogService logService)
         {
             _areaRepository = areaRepository;
+            _orderRepository = orderRepository;
             _logService = logService;
 
         }
-
-        #endregion
-
-        #region| Methods |
 
         /// <summary>
         /// Get all areas
@@ -95,14 +89,34 @@ namespace GeekBurger.Production.Api.Controllers
         }
 
         /// <summary>
+        /// Get a order
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("getOrder")]
+        public async Task<IActionResult>GetOrder([FromQuery]Guid id)
+        {
+            try
+            {
+                var result = await _orderRepository.GetById(id);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
+        }
+
+        /// <summary>
         /// Post a new Order
         /// </summary>
         /// <returns></returns>
         [HttpPost("newOrder")]
-        public IActionResult NewOrder(NewOrder request)
+        public async Task<IActionResult> NewOrder(GeekBurguer.Orders.Contract.NewOrderMessage request)
         {
             try
             {
+                await _orderRepository.Add(request);
                 _logService.SendMessagesAsync("NewOrder");
                 return Ok(request);
             }
@@ -110,7 +124,6 @@ namespace GeekBurger.Production.Api.Controllers
             {
                 return BadRequest();
             }
-
         }
 
         /// <summary>
@@ -118,18 +131,18 @@ namespace GeekBurger.Production.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("updateOrder")]
-        public IActionResult UpdateOrder(UpdateOrder request)
+        public async Task<IActionResult> UpdateOrder(GeekBurguer.Orders.Contract.OrderChangedMessage request)
         {
             try
             {
+                await _orderRepository.Update(request);
                 _logService.SendMessagesAsync("OrderChanged");
                 return Ok(request);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return BadRequest();
             }
         }
-        #endregion
     }
 }

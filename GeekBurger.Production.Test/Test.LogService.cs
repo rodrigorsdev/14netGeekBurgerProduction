@@ -7,6 +7,9 @@ using GeekBurger.Production.Application.Interfaces;
 
 namespace GeekBurger.Production.Test
 {
+    /// <summary>
+    /// Test class for the log service
+    /// </summary>
     public class TestLogService
     {
         [Fact]

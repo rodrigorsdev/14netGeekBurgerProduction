@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -41,6 +42,10 @@ namespace GeekBurger.Production.Infra.Repository
 
         #region| Methods |
 
+        /// <summary>
+        /// Get all productions
+        /// </summary>
+        /// <returns></returns>
         public async Task<ICollection<Contract.Production>> List()
         {
             await ValidateDatabase();
@@ -56,6 +61,10 @@ namespace GeekBurger.Production.Infra.Repository
             return query.ToList();
         }
 
+        /// <summary>
+        /// Add a production
+        /// </summary>
+        /// <param name="model">Production model</param>        
         public async Task Add(Contract.Production model)
         {
             await ValidateDatabase();
@@ -63,11 +72,21 @@ namespace GeekBurger.Production.Infra.Repository
             await CreateDocumentIfNotExists(_nosql.Value.Database, COLLECTION, model);
         }
 
+        /// <summary>
+        /// Update a production
+        /// </summary>
+        /// <param name="model">Production model</param>
         public Task Update(Contract.Production model)
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Create document if not exists
+        /// </summary>
+        /// <param name="databaseName">database name</param>
+        /// <param name="collectionName">collection name AKA table name</param>
+        /// <param name="model">model</param>
         private async Task CreateDocumentIfNotExists(string databaseName, string collectionName, Contract.Production model)
         {
             try
@@ -87,6 +106,13 @@ namespace GeekBurger.Production.Infra.Repository
             }
         }
 
+        /// <summary>
+        /// Update an existing document
+        /// </summary>
+        /// <param name="databaseName">database name</param>
+        /// <param name="collectionName">collection name AKA table name</param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         private async Task UpdateDocument(string databaseName, string collectionName, Contract.Production model)
         {
             try
@@ -95,14 +121,7 @@ namespace GeekBurger.Production.Infra.Repository
             }
             catch (DocumentClientException de)
             {
-                //if (de.StatusCode == HttpStatusCode.NotFound)
-                //{
-                //    await _document.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(databaseName, collectionName), model);
-                //}
-                //else
-                //{
-                //    throw;
-                //}
+                Trace.WriteLine(de.Message);
             }
         } 
         #endregion

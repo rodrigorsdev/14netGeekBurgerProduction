@@ -30,6 +30,10 @@ namespace GeekBurger.Production.Api
 
         #region| Methods |
 
+        /// <summary>
+        /// Configure services
+        /// </summary>
+        /// <param name="services">IServiceCollection</param>
         public void ConfigureServices(IServiceCollection services)
         {
             Bootstrapper.RegisterServices(services, Configuration);
@@ -43,6 +47,11 @@ namespace GeekBurger.Production.Api
             });
         }
 
+        /// <summary>
+        /// Configure
+        /// </summary>
+        /// <param name="app">IApplicationBuilder</param>
+        /// <param name="env">IHostingEnvironment</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()

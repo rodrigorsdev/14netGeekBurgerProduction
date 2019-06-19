@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GeekBurger.Production.Interface
 {
+    /// <summary>
+    /// Order repository interface
+    /// </summary>
     public interface IOrderRepository
     {
     }

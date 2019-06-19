@@ -1,5 +1,8 @@
 ﻿namespace GeekBurger.Production
 {
+    /// <summary>
+    /// Service bus configuration
+    /// </summary>
     public class ServiceBusConfiguration
     {
         #region| Properties |

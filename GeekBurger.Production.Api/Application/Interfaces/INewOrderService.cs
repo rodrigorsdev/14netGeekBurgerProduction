@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Hosting;
-
-using GeekBurger.Production.Contract;
-using GeekBurger.Production.Models;
+using System.Collections.Generic;
 
 namespace GeekBurger.Production.Application.Interfaces
 {
@@ -22,6 +18,6 @@ namespace GeekBurger.Production.Application.Interfaces
         /// Add to message list
         /// </summary>
         /// <param name="changes">IEnumerable of EntityEntry<![CDATA[Order]]></param>
-        void AddToMessageList(IEnumerable<EntityEntry<Order>> changes);
+        void AddToMessageList(IEnumerable<EntityEntry<Models.Order>> changes);
     }
 }

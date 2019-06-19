@@ -1,13 +1,10 @@
-using System;
-
-using Moq;
-using Xunit;
-
-using GeekBurger.Production.Application.Interfaces;
 using GeekBurger.Production.Api.Controllers;
+using GeekBurger.Production.Application.Interfaces;
 using GeekBurger.Production.Interface;
+using Moq;
+using System;
 using System.Collections.Generic;
-using GeekBurger.Production.Application.ViewModel;
+using Xunit;
 
 namespace GeekBurger.Production.Test
 {
@@ -32,7 +29,7 @@ namespace GeekBurger.Production.Test
             var payload = new Contract.Production
             {
                 ProductionId = Guid.NewGuid(),
-                Restrictions = new List<string> { "Leite","Soja" }
+                Restrictions = new List<string> { "Leite", "Soja" }
             };
 
             mock.Setup(m => m.AddArea(payload));
@@ -56,27 +53,12 @@ namespace GeekBurger.Production.Test
         public void NewOrder()
         {
             var mock = GetController();
-
-            var payload = new NewOrder
-            {
-                OrderId = Guid.NewGuid()
-            };
-
-            mock.Setup(m => m.NewOrder(payload));
         }
 
         [Fact]
         public void UpdateOrder()
         {
             var mock = GetController();
-
-            var payload = new UpdateOrder
-            {
-                OrderId = Guid.NewGuid(),
-                State = OrderState.Paid
-            };
-
-            mock.Setup(m => m.UpdateOrder(payload));
         }
 
         /// <summary>

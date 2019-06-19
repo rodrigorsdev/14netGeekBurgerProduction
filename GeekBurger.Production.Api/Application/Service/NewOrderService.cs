@@ -1,15 +1,12 @@
 ﻿using GeekBurger.Production.Application.Interfaces;
 using GeekBurger.Production.Contract;
 using GeekBurger.Production.Models;
-using GeekBurguer.Orders.Contract;
 using Microsoft.Azure.Management.ServiceBus.Fluent;
 using Microsoft.Azure.ServiceBus;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,7 +31,7 @@ namespace GeekBurger.Production.Application.Service
             throw new NotImplementedException();
         }
 
-        public void AddToMessageList(IEnumerable<EntityEntry<Order>> changes)
+        public void AddToMessageList(IEnumerable<EntityEntry<Models.Order>> changes)
         {
             throw new NotImplementedException();
         }

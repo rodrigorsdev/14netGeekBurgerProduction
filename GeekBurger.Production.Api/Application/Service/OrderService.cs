@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 
 using GeekBurger.Production.Application.Interfaces;
 using GeekBurger.Production.Contract;
+using Polly;
+using System.Net.Http;
 
 namespace GeekBurger.Production.Application.Service
 {
@@ -47,24 +49,39 @@ namespace GeekBurger.Production.Application.Service
 
         #region| Methods |
 
+        /// <summary>
+        /// Check whether a topic exists. If don't, it creates a new one.
+        /// </summary>
         private void EnsureTopicIsCreated()
         {
             if (!_namespace.Topics.List().Any(topic => topic.Name.Equals(Topic, StringComparison.InvariantCultureIgnoreCase)))
                 _namespace.Topics.Define(Topic).WithSizeInMB(1024).Create();
         }
 
+        /// <summary>
+        /// Start
+        /// </summary>
+        /// <param name="cancellationToken">CancellationToken</param>
         public Task StartAsync(CancellationToken cancellationToken)
         {
             EnsureTopicIsCreated();
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Stop
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _cancelMessages.Cancel();
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Send messages asynchronously
+        /// </summary>
         public async void SendMessagesAsync()
         {
             if (_lastTask != null && !_lastTask.IsCompleted)
@@ -84,42 +101,64 @@ namespace GeekBurger.Production.Application.Service
             HandleException(closeTask);
         }
 
+        /// <summary>
+        /// Add to message list
+        /// </summary>
+        /// <param name="changes">IEnumerable of EntityEntry<![CDATA[T]]></param>
         public void AddToMessageList(IEnumerable<EntityEntry<Order>> changes)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Send a topic asynchronously
+        /// </summary>
+        /// <param name="topicClient">TopicClient</param>
+        /// <param name="cancellationToken">CancellationToken</param>
         private async Task SendAsync(TopicClient topicClient, CancellationToken cancellationToken)
         {
-            var tries = 0;
-            while (!cancellationToken.IsCancellationRequested)
+            if(_messages.Count<=0)
             {
-                if (_messages.Count <= 0)
-                    break;
+                return;
+            }
 
-                Message message;
+            var maxRetryAttempts = int.Parse(_configuration["maxRetryAttempts"]);
+            var pauseBetweenFailures = TimeSpan.FromSeconds(int.Parse(_configuration["pauseBetweenFailures"]));
+
+            Message message = null;
+
+            var sendTask = topicClient.SendAsync(message);
+
+            var retryPolicy = Policy
+                .Handle<HttpRequestException>(ex => HandleException(sendTask))
+                .WaitAndRetryAsync(maxRetryAttempts,i => pauseBetweenFailures);
+
+            //TODO: Veryfy how to pass the cancelation token
+            await retryPolicy.ExecuteAsync(async () =>
+            {
                 lock (_messages)
                 {
                     message = _messages.FirstOrDefault();
                 }
 
-                var sendTask = topicClient.SendAsync(message);
                 await sendTask;
                 var success = HandleException(sendTask);
 
-                if (!success)
+                if (success)
                 {
-                    var cancelled = cancellationToken.WaitHandle.WaitOne(10000 * (tries < 60 ? tries++ : tries));
-                    if (cancelled) break;
+                    if (message != null)
+                    {
+                        _messages.Remove(message);
+                    }
                 }
-                else
-                {
-                    if (message == null) continue;
-                    _messages.Remove(message);
-                }
-            }
+            });
         }
 
+        /// <summary>
+        /// Exception error handler
+        /// </summary>
+        /// <param name="task">Task</param>
+        /// <returns>bool</returns>
         private bool HandleException(Task task)
         {
             if (task.Exception == null || task.Exception.InnerExceptions.Count == 0) return true;
@@ -134,6 +173,7 @@ namespace GeekBurger.Production.Application.Service
 
             return false;
         }
+
         #endregion
     }
 }

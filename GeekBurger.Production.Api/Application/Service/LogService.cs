@@ -33,6 +33,10 @@ namespace GeekBurger.Production.Application.Service
 
         #region| Constructor |
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="configuration">IConfiguration</param>
         public LogService(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -46,6 +50,9 @@ namespace GeekBurger.Production.Application.Service
 
         #region| Methods |
 
+        /// <summary>
+        /// Check whether a topi exists
+        /// </summary>
         private void EnsureTopicIsCreated()
         {
             if (!_namespace.Topics.List()
@@ -55,6 +62,11 @@ namespace GeekBurger.Production.Application.Service
                     .WithSizeInMB(1024).Create();
         }
 
+        /// <summary>
+        /// Creates a message based on the given content
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public Message GetMessage(string message)
         {
             var productChangedByteArray = Encoding.UTF8.GetBytes(message);
@@ -67,6 +79,10 @@ namespace GeekBurger.Production.Application.Service
             };
         }
 
+        /// <summary>
+        /// Send messages asynchronously
+        /// </summary>
+        /// <param name="message">message</param>
         public async void SendMessagesAsync(string message)
         {
             _messages.Add(GetMessage(message));
@@ -89,8 +105,7 @@ namespace GeekBurger.Production.Application.Service
         /// <summary>
         /// Send message async
         /// </summary>
-        /// <param name="topicClient"></param>
-        /// <returns></returns>
+        /// <param name="topicClient">Topic Client</param>
         public async Task SendAsync(TopicClient topicClient)
         {
             var maxRetryAttempts     = int.Parse(_configuration["maxRetryAttempts"]);
@@ -127,8 +142,6 @@ namespace GeekBurger.Production.Application.Service
         /// <summary>
         /// Handle task exception
         /// </summary>
-        /// <param name="task"></param>
-        /// <returns></returns>
         public bool HandleException(Task task)
         {
             if (task.Exception == null || task.Exception.InnerExceptions.Count == 0) return true;

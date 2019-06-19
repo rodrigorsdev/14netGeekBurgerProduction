@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 using Moq;
 using Xunit;
 
 using GeekBurger.Production.Application.Interfaces;
+using GeekBurger.Production.Contract;
 
 namespace GeekBurger.Production.Test
 {
@@ -14,32 +17,17 @@ namespace GeekBurger.Production.Test
         {
             var mock = new Mock<IOrderService>();
 
-            mock.Setup(s => s.ProductionAreaChanged());
+            mock.Setup(s => s.SendMessagesAsync());
         }
 
         [Fact]
         public void NewOrder()
         {
             var mock = new Mock<IOrderService>();
+            var payload = new List<EntityEntry<Order>>();
 
-            mock.Setup(s => s.NewOrder());
+            mock.Setup(s => s.AddToMessageList(payload));
         }
-
-
-        [Fact]
-        public void OrderChanged()
-        {
-            var mock = new Mock<IOrderService>();
-
-            mock.Setup(s => s.OrderChanged());
-        }
-
-        [Fact]
-        public void WaitOrderChanged()
-        {
-            var mock = new Mock<IOrderService>();
-
-            mock.Setup(s => s.WaitOrderChanged());
-        }
+     
     }
 }

@@ -1,10 +1,11 @@
-﻿using GeekBurger.Production.Application.Interfaces;
+﻿using System;
+using System.Threading.Tasks;
+
+using GeekBurger.Production.Application.Interfaces;
 using GeekBurger.Production.Application.ViewModel;
 using GeekBurger.Production.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
 namespace GeekBurger.Production.Api.Controllers
 {
@@ -15,16 +16,20 @@ namespace GeekBurger.Production.Api.Controllers
     [ApiController]
     public class ProductionController : ControllerBase
     {
-        private ILogService _logService;
-
         #region| Fields |
 
+        private ILogService _logService;
         private readonly IProductionRepository _areaRepository;
 
         #endregion
 
         #region| Constructor |
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="areaRepository">IProductionRepository</param>
+        /// <param name="logService">ILogService</param>
         public ProductionController(IProductionRepository areaRepository, ILogService logService)
         {
             _areaRepository = areaRepository;

@@ -10,7 +10,7 @@ namespace GeekBurger.Production.Application.Interfaces
     /// <summary>
     /// Order Service Interface
     /// </summary>
-    public interface IOrderService: IHostedService
+    public interface INewOrderService: IHostedService
     {
         /// <summary>
         /// Send messages asynchronously

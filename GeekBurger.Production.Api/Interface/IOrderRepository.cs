@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GeekBurger.Production.Models;
+using System;
 
 namespace GeekBurger.Production.Interface
 {
@@ -7,5 +8,8 @@ namespace GeekBurger.Production.Interface
     /// </summary>
     public interface IOrderRepository
     {
+        Task<Order> GetById(Guid id);
+        Task Add(Order model);
+        Task Update(Order model);
     }
 }

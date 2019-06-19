@@ -69,9 +69,10 @@ namespace GeekBurger.Production.Infra.Ioc
             services.AddSingleton(a => new DocumentClient(new Uri(configuration["Nosql:Uri"]), configuration["Nosql:Key"]));
 
             services.AddSingleton<IProductionRepository, ProductionRepository>();
+            services.AddSingleton<IOrderRepository, OrderRepository>();
 
             services.AddSingleton<ILogService, LogService>();
-            services.AddSingleton<IOrderService, OrderService>();
+            services.AddSingleton<INewOrderService, NewOrderService>();
 
             return Services;
         } 

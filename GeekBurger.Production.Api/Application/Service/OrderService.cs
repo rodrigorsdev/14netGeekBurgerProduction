@@ -1,14 +1,16 @@
-﻿using GeekBurger.Production.Application.Interfaces;
-using GeekBurger.Production.Contract;
-using Microsoft.Azure.Management.ServiceBus.Fluent;
-using Microsoft.Azure.ServiceBus;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Azure.Management.ServiceBus.Fluent;
+using Microsoft.Azure.ServiceBus;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Configuration;
+
+using GeekBurger.Production.Application.Interfaces;
+using GeekBurger.Production.Contract;
 
 namespace GeekBurger.Production.Application.Service
 {

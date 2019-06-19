@@ -10,6 +10,9 @@ using GeekBurger.Production.Contract;
 
 namespace GeekBurger.Production.Test
 {
+    /// <summary>
+    /// Test class for the Order service
+    /// </summary>
     public class TestOrderService
     {
         [Fact]

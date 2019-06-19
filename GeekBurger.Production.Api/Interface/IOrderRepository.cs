@@ -1,11 +1,11 @@
 ﻿using GeekBurger.Production.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GeekBurger.Production.Interface
 {
+    /// <summary>
+    /// Order repository interface
+    /// </summary>
     public interface IOrderRepository
     {
         Task<Order> GetById(Guid id);

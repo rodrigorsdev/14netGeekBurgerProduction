@@ -11,6 +11,9 @@ using GeekBurger.Production.Application.ViewModel;
 
 namespace GeekBurger.Production.Test
 {
+    /// <summary>
+    /// Test class for the production controller
+    /// </summary>
     public class TestProductionController
     {
         [Fact]
